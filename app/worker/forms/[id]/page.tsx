@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AppShell } from "@/components/app-shell";
 import { submitWorkerForm } from "@/app/worker/forms/actions";
-import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { getWorkerFormDetail } from "@/lib/data/forms";
 import { AppButton } from "@/components/app-button";
+import { WorkerPageShell } from "@/components/worker-page-shell";
 import {
   CONTRACTOR_ACK_TEXT,
   CONTRACTOR_AGREEMENT_INTRO,
@@ -46,25 +45,7 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
     data.parsedSubmission && "handbook_version" in data.parsedSubmission ? data.parsedSubmission : null;
 
   return (
-    <AppShell
-      title="Worker Form"
-      subtitle="Complete and submit your assigned form"
-      nav={[
-        { href: "/worker", label: "Dashboard" },
-        { href: "/worker/pay", label: "Pay" },
-        { href: "/worker/time", label: "Time" },
-        { href: "/worker/schedule", label: "Schedule" },
-        { href: "/worker/training", label: "Training" },
-        { href: "/worker/forms", label: "Forms" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <AppButton variant="secondary"  type="submit">
-            Sign out
-          </AppButton>
-        </form>
-      }
-    >
+    <WorkerPageShell title="Form" subtitle="Complete and submit your assigned form">
       <section className="card stack">
         <div className="summary-row">
           <div>
@@ -531,6 +512,6 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
           </form>
         )}
       </section>
-    </AppShell>
+    </WorkerPageShell>
   );
 }

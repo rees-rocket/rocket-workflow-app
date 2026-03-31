@@ -1,12 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AppShell } from "@/components/app-shell";
 import { PrintButton } from "@/components/print-button";
-import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { getPayrollPeriodWorkerReport } from "@/lib/data/pay-reports";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
-import { AppButton } from "@/components/app-button";
+import { WorkerPageShell } from "@/components/worker-page-shell";
 
 type WorkerPayPeriodPrintPageProps = {
   params: Promise<{ id: string }>;
@@ -22,23 +20,7 @@ export default async function WorkerPayPeriodPrintPage({ params }: WorkerPayPeri
   }
 
   return (
-    <AppShell
-      title="Pay Period Report"
-      subtitle="Printable copy of your pay period"
-      nav={[
-        { href: "/worker", label: "Dashboard" },
-        { href: "/worker/pay", label: "Pay" },
-        { href: "/worker/time", label: "Time" },
-        { href: "/worker/schedule", label: "Schedule" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <AppButton variant="secondary"  type="submit">
-            Sign out
-          </AppButton>
-        </form>
-      }
-    >
+    <WorkerPageShell title="Pay Period Report" subtitle="Printable copy of your pay period">
       <section className="card report-shell">
         <div className="print-toolbar">
           <Link className="btn secondary" href={`/worker/pay?period=${report.period.id}`}>
@@ -119,6 +101,6 @@ export default async function WorkerPayPeriodPrintPage({ params }: WorkerPayPeri
           </section>
         </div>
       </section>
-    </AppShell>
+    </WorkerPageShell>
   );
 }

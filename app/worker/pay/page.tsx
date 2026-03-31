@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { AppShell } from "@/components/app-shell";
-import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { formatPayPeriodLabel, getWorkerPayPageData } from "@/lib/data/pay";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 import { AppButton } from "@/components/app-button";
+import { WorkerPageShell } from "@/components/worker-page-shell";
 
 type WorkerPayPageProps = {
   searchParams?: Promise<{ period?: string }>;
@@ -20,25 +19,7 @@ export default async function WorkerPayPage({ searchParams }: WorkerPayPageProps
   const data = await getWorkerPayPageData(profile.id, params.period);
 
   return (
-    <AppShell
-      title="Worker Pay"
-      subtitle="Quick pay status without the clutter"
-      nav={[
-        { href: "/worker", label: "Dashboard" },
-        { href: "/worker/pay", label: "Pay" },
-        { href: "/worker/time", label: "Time" },
-        { href: "/worker/schedule", label: "Schedule" },
-        { href: "/worker/training", label: "Training" },
-        { href: "/worker/forms", label: "Forms" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <AppButton variant="secondary"  type="submit">
-            Sign out
-          </AppButton>
-        </form>
-      }
-    >
+    <WorkerPageShell title="Pay" subtitle="Quick pay status without the clutter">
       <section className="card metric">
         <span className="eyebrow">Year to Date Pay</span>
         <strong>{formatCurrencyFromCents(data.ytd.total_pay_cents)}</strong>
@@ -172,6 +153,6 @@ export default async function WorkerPayPage({ searchParams }: WorkerPayPageProps
           </div>
         </section>
       )}
-    </AppShell>
+    </WorkerPageShell>
   );
 }

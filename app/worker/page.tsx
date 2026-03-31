@@ -1,4 +1,3 @@
-import { AppShell } from "@/components/app-shell";
 import { requireProfile } from "@/lib/auth";
 import { AppButton } from "@/components/app-button";
 import {
@@ -19,7 +18,7 @@ import {
   startBreak,
   switchStatus
 } from "@/app/worker/actions";
-import { signOut } from "@/app/auth/login/actions";
+import { WorkerPageShell } from "@/components/worker-page-shell";
 
 type CalendarShift = {
   id: string;
@@ -128,26 +127,7 @@ export default async function WorkerPage() {
   );
 
   return (
-    <AppShell
-      title="Worker"
-      subtitle="Mobile-first dashboard for quick daily use"
-      nav={[
-        { href: "/", label: "Overview" },
-        { href: "/worker", label: "Dashboard" },
-        { href: "/worker/pay", label: "Pay" },
-        { href: "/worker/time", label: "Time" },
-        { href: "/worker/schedule", label: "Schedule" },
-        { href: "/worker/training", label: "Training" },
-        { href: "/worker/forms", label: "Forms" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <AppButton variant="secondary"  type="submit">
-            Sign out
-          </AppButton>
-        </form>
-      }
-    >
+    <WorkerPageShell title="Dashboard" subtitle="Mobile-first dashboard for quick daily use">
       <div className="grid two">
         <section className="card status-card">
           <div className="eyebrow">Time Tracking</div>
@@ -378,6 +358,6 @@ export default async function WorkerPage() {
           ))}
         </ul>
       </section>
-    </AppShell>
+    </WorkerPageShell>
   );
 }

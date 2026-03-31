@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AppShell } from "@/components/app-shell";
 import { advanceTrainingSection, startTrainingModule, submitTrainingQuiz } from "@/app/worker/training/actions";
-import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { describeTrainingStatus, getWorkerTrainingModule } from "@/lib/data/training";
 import { AppButton } from "@/components/app-button";
+import { WorkerPageShell } from "@/components/worker-page-shell";
 
 type WorkerTrainingDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -28,25 +27,7 @@ export default async function WorkerTrainingDetailPage({ params }: WorkerTrainin
   }
 
   return (
-    <AppShell
-      title="Training Module"
-      subtitle="Read the sections, pass the quiz, and complete the module"
-      nav={[
-        { href: "/worker", label: "Dashboard" },
-        { href: "/worker/pay", label: "Pay" },
-        { href: "/worker/time", label: "Time" },
-        { href: "/worker/schedule", label: "Schedule" },
-        { href: "/worker/training", label: "Training" },
-        { href: "/worker/forms", label: "Forms" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <AppButton variant="secondary"  type="submit">
-            Sign out
-          </AppButton>
-        </form>
-      }
-    >
+    <WorkerPageShell title="Training Module" subtitle="Read the sections, pass the quiz, and complete the module">
       <section className="card stack">
         <div className="summary-row">
           <div>
@@ -144,6 +125,6 @@ export default async function WorkerTrainingDetailPage({ params }: WorkerTrainin
           </section>
         ) : null}
       </section>
-    </AppShell>
+    </WorkerPageShell>
   );
 }

@@ -1,11 +1,9 @@
 import Link from "next/link";
-import { AppShell } from "@/components/app-shell";
 import { PrintButton } from "@/components/print-button";
-import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { getPayrollAnnualWorkerReport } from "@/lib/data/pay-reports";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
-import { AppButton } from "@/components/app-button";
+import { WorkerPageShell } from "@/components/worker-page-shell";
 
 type WorkerAnnualPayPrintPageProps = {
   searchParams?: Promise<{ year?: string }>;
@@ -28,23 +26,7 @@ export default async function WorkerAnnualPayPrintPage({ searchParams }: WorkerA
   }
 
   return (
-    <AppShell
-      title="Annual Pay Report"
-      subtitle="Printable annual pay summary"
-      nav={[
-        { href: "/worker", label: "Dashboard" },
-        { href: "/worker/pay", label: "Pay" },
-        { href: "/worker/time", label: "Time" },
-        { href: "/worker/schedule", label: "Schedule" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <AppButton variant="secondary"  type="submit">
-            Sign out
-          </AppButton>
-        </form>
-      }
-    >
+    <WorkerPageShell title="Annual Pay Report" subtitle="Printable annual pay summary">
       <section className="card report-shell">
         <div className="print-toolbar">
           <Link className="btn secondary" href="/worker/pay">
@@ -120,6 +102,6 @@ export default async function WorkerAnnualPayPrintPage({ searchParams }: WorkerA
           </table>
         </div>
       </section>
-    </AppShell>
+    </WorkerPageShell>
   );
 }

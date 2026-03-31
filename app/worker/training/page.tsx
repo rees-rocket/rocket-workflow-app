@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { AppShell } from "@/components/app-shell";
-import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { describeTrainingStatus, getWorkerTrainingDashboard } from "@/lib/data/training";
-import { AppButton } from "@/components/app-button";
+import { WorkerPageShell } from "@/components/worker-page-shell";
 
 function getStatusClass(status: "not_started" | "in_progress" | "completed" | "overdue") {
   if (status === "completed") return "pill ok";
@@ -24,25 +22,7 @@ export default async function WorkerTrainingPage() {
   ];
 
   return (
-    <AppShell
-      title="Worker Training"
-      subtitle="Assigned training in one simple place"
-      nav={[
-        { href: "/worker", label: "Dashboard" },
-        { href: "/worker/pay", label: "Pay" },
-        { href: "/worker/time", label: "Time" },
-        { href: "/worker/schedule", label: "Schedule" },
-        { href: "/worker/training", label: "Training" },
-        { href: "/worker/forms", label: "Forms" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <AppButton variant="secondary"  type="submit">
-            Sign out
-          </AppButton>
-        </form>
-      }
-    >
+    <WorkerPageShell title="Training" subtitle="Assigned training in one simple place">
       <div className="grid two">
         <section className="card metric">
           <span className="eyebrow">Assigned Modules</span>
@@ -87,6 +67,6 @@ export default async function WorkerTrainingPage() {
           )}
         </section>
       ))}
-    </AppShell>
+    </WorkerPageShell>
   );
 }

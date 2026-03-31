@@ -1,12 +1,11 @@
-import { AppShell } from "@/components/app-shell";
 import { requireProfile } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { describeBatchPaidStatus, describeSegment, formatMinutesAsHours } from "@/lib/time";
 import { getWorkerTimeData, getSegmentsForDay } from "@/lib/data/time";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 import { submitTimeCorrectionRequest } from "@/app/worker/time/actions";
-import { signOut } from "@/app/auth/login/actions";
 import { AppButton } from "@/components/app-button";
+import { WorkerPageShell } from "@/components/worker-page-shell";
 
 export default async function WorkerTimePage() {
   const { profile } = await requireProfile("worker");
@@ -16,25 +15,7 @@ export default async function WorkerTimePage() {
   const segments = latestDay ? await getSegmentsForDay(latestDay.id) : [];
 
   return (
-    <AppShell
-      title="Worker Time"
-      subtitle="Daily time history and correction requests"
-      nav={[
-        { href: "/worker", label: "Dashboard" },
-        { href: "/worker/pay", label: "Pay" },
-        { href: "/worker/time", label: "Time" },
-        { href: "/worker/schedule", label: "Schedule" },
-        { href: "/worker/training", label: "Training" },
-        { href: "/worker/forms", label: "Forms" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <AppButton variant="secondary"  type="submit">
-            Sign out
-          </AppButton>
-        </form>
-      }
-    >
+    <WorkerPageShell title="Time" subtitle="Daily time history and correction requests">
       <div className="grid two">
         <section className="card stack">
           <div className="eyebrow">Recent Days</div>
@@ -153,6 +134,6 @@ export default async function WorkerTimePage() {
           )}
         </ul>
       </section>
-    </AppShell>
+    </WorkerPageShell>
   );
 }

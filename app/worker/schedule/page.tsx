@@ -1,11 +1,10 @@
-import { AppShell } from "@/components/app-shell";
 import { requireProfile } from "@/lib/auth";
 import { getWorkerSchedule, getEffectivePayRate, formatRole, formatShiftStatus } from "@/lib/data/schedule";
 import { formatTime } from "@/lib/time";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 import { submitTradeRequest } from "@/app/worker/schedule/actions";
-import { signOut } from "@/app/auth/login/actions";
 import { AppButton } from "@/components/app-button";
+import { WorkerPageShell } from "@/components/worker-page-shell";
 
 type Props = {
   searchParams?: Promise<{ message?: string }>;
@@ -17,23 +16,7 @@ export default async function WorkerSchedulePage({ searchParams }: Props) {
   const params = (await searchParams) ?? {};
 
   return (
-    <AppShell
-      title="Worker Schedule"
-      subtitle="Your assigned shifts"
-      nav={[
-        { href: "/worker", label: "Dashboard" },
-        { href: "/worker/pay", label: "Pay" },
-        { href: "/worker/time", label: "Time" },
-        { href: "/worker/schedule", label: "Schedule" },
-        { href: "/worker/training", label: "Training" },
-        { href: "/worker/forms", label: "Forms" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <AppButton variant="secondary"  type="submit">Sign out</AppButton>
-        </form>
-      }
-    >
+    <WorkerPageShell title="Schedule" subtitle="Your assigned shifts">
       {params.message ? <div className="pill" style={{ marginBottom: 16 }}>{params.message}</div> : null}
       <section className="card">
         <div className="eyebrow">Assigned Shifts</div>
@@ -114,6 +97,6 @@ export default async function WorkerSchedulePage({ searchParams }: Props) {
           </ul>
         )}
       </section>
-    </AppShell>
+    </WorkerPageShell>
   );
 }

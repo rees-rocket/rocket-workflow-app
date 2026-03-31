@@ -1,10 +1,8 @@
 import Link from "next/link";
-import { AppShell } from "@/components/app-shell";
-import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { getWorkerFormsDashboard } from "@/lib/data/forms";
 import { isOnboardingForm } from "@/lib/forms-content";
-import { AppButton } from "@/components/app-button";
+import { WorkerPageShell } from "@/components/worker-page-shell";
 
 function statusClass(status: "not_started" | "completed") {
   return status === "completed" ? "pill ok" : "pill warn";
@@ -20,25 +18,7 @@ export default async function WorkerFormsPage() {
   ] as const;
 
   return (
-    <AppShell
-      title="Worker Forms"
-      subtitle="Assigned forms in one simple place"
-      nav={[
-        { href: "/worker", label: "Dashboard" },
-        { href: "/worker/pay", label: "Pay" },
-        { href: "/worker/time", label: "Time" },
-        { href: "/worker/schedule", label: "Schedule" },
-        { href: "/worker/training", label: "Training" },
-        { href: "/worker/forms", label: "Forms" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <AppButton variant="secondary"  type="submit">
-            Sign out
-          </AppButton>
-        </form>
-      }
-    >
+    <WorkerPageShell title="Forms" subtitle="Assigned forms in one simple place">
       <div className="grid two">
         <section className="card metric">
           <span className="eyebrow">Required Forms</span>
@@ -83,6 +63,6 @@ export default async function WorkerFormsPage() {
           )}
         </section>
       ))}
-    </AppShell>
+    </WorkerPageShell>
   );
 }
