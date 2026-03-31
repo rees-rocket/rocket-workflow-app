@@ -12,7 +12,7 @@ import {
   formatMinutesAsHours,
   formatTime
 } from "@/lib/time";
-import { sendWorkerInvite, updateWorker } from "@/app/admin/workers/actions";
+import { updateWorker } from "@/app/admin/workers/actions";
 import { notFound } from "next/navigation";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 
@@ -45,7 +45,7 @@ export default async function WorkerDetailPage({ params, searchParams }: WorkerD
   return (
     <AdminPageShell
       actions={
-        <form action={sendWorkerInvite}>
+        <form action="/admin/workers/invite" method="post">
           <input name="email" type="hidden" value={detail.worker.email} />
           <input
             name="return_to"

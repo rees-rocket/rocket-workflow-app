@@ -1,7 +1,6 @@
 import { AdminPageShell } from "@/components/admin-page-shell";
 import Link from "next/link";
 import { requireProfile } from "@/lib/auth";
-import { sendWorkerInvite } from "@/app/admin/workers/actions";
 import { getWorkerManagementList } from "@/lib/data/workers";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 import { AppButton } from "@/components/app-button";
@@ -70,7 +69,7 @@ export default async function AdminWorkersPage({ searchParams }: AdminWorkersPag
                       : "No training assigned"}
                   </td>
                   <td>
-                    <form action={sendWorkerInvite}>
+                    <form action="/admin/workers/invite" method="post">
                       <input name="email" type="hidden" value={worker.email} />
                       <input name="return_to" type="hidden" value="/admin/workers" />
                       <AppButton type="submit" variant="secondary">
