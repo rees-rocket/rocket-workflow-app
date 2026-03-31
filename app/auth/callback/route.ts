@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
-import { getSupabaseEnv } from "@/lib/env";
+import { getSiteUrl, getSupabaseEnv } from "@/lib/env";
 import { getCurrentWorkDate } from "@/lib/time";
 
 const WORKER_SESSION_DAY_COOKIE = "rr-worker-session-day";
@@ -9,8 +9,9 @@ export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
   const next = requestUrl.searchParams.get("next") ?? "/";
+  const siteUrl = getSiteUrl(requestUrl.origin);
   const { url, anonKey } = getSupabaseEnv();
-  let response = NextResponse.redirect(new URL(next, requestUrl.origin));
+  let response = NextResponse.redirect(new URL(next, siteUrl));
 
   const supabase = createServerClient(url, anonKey, {
     cookies: {

@@ -10,3 +10,9 @@ export function getSupabaseEnv() {
 
   return { url, anonKey };
 }
+
+export function getSiteUrl(fallback = "https://rocket-workflow-app.vercel.app") {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? fallback;
+
+  return siteUrl.replace(/\/$/, "");
+}

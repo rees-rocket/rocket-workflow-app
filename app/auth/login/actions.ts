@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
+import { getSiteUrl } from "@/lib/env";
 import { cookies } from "next/headers";
 
 const WORKER_SESSION_DAY_COOKIE = "rr-worker-session-day";
@@ -15,11 +16,11 @@ export async function sendMagicLink(formData: FormData) {
   }
 
   const supabase = await createClient();
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const siteUrl = getSiteUrl();
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${origin}/auth/callback`
+      emailRedirectTo: `${siteUrl}/auth/callback`
     }
   });
 

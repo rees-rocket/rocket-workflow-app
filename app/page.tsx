@@ -10,24 +10,42 @@ export default async function HomePage() {
   }
 
   return (
-    <main className="shell">
-      <section className="hero">
-        <div className="eyebrow">MVP Blueprint</div>
-        <h1>Rocket Ribs employee portal, reduced to the practical first release.</h1>
-        <p className="lead">
-          This starter is shaped around magic-link login, worker clock in and clock out,
-          simple admin controls, and lightweight training compliance. It is designed as a
-          PWA-first foundation so the worker experience stays fast on iPhone and Android
-          while the admin view remains comfortable on desktop.
+    <main className="home-shell">
+      <section className="home-card">
+        <header className="home-header">
+          <div className="home-kicker">Rocket Ribs &amp; BBQ</div>
+          <h1>Team Portal</h1>
+        </header>
+
+        <p className="home-description">
+          Clock in, check your schedule, and track your hours.
         </p>
-        <div className="button-row">
-          <Link className="btn primary" href="/worker">
-            Open worker MVP
+
+        <div className="home-actions">
+          <Link className="btn primary big home-primary-btn" href="/auth/login">
+            Clock In / Enter Portal
           </Link>
-          <Link className="btn secondary" href="/admin">
-            Open admin MVP
+          <Link className="btn secondary home-secondary-btn" href="/auth/login">
+            Admin Login
           </Link>
         </div>
+
+        <div className="home-features" aria-label="Portal features">
+          <div className="home-feature-pill">
+            <span aria-hidden="true">⏱</span>
+            <span>Clock In</span>
+          </div>
+          <div className="home-feature-pill">
+            <span aria-hidden="true">📅</span>
+            <span>Schedule</span>
+          </div>
+          <div className="home-feature-pill">
+            <span aria-hidden="true">💵</span>
+            <span>Pay</span>
+          </div>
+        </div>
+
+        <footer className="home-footer">Secure login via email</footer>
       </section>
     </main>
   );
