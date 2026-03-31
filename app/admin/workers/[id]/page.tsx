@@ -15,6 +15,7 @@ import {
 import { updateWorker } from "@/app/admin/workers/actions";
 import { notFound } from "next/navigation";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
+import { MagicLinkHelp } from "@/components/magic-link-help";
 
 type WorkerDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -85,6 +86,7 @@ export default async function WorkerDetailPage({ params, searchParams }: WorkerD
           <div className="eyebrow">Profile Details</div>
           <h2>Edit worker</h2>
           {search.message ? <div className="pill">{search.message}</div> : null}
+          <MagicLinkHelp title="Invite delivery tips" />
           <form action={updateWorker} className="stack">
             <input name="source" type="hidden" value={detail.source} />
             <input name="worker_id" type="hidden" value={detail.worker.id} />

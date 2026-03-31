@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { getSiteUrl } from "@/lib/env";
+import { formatMagicLinkErrorMessage, formatMagicLinkSuccessMessage } from "@/lib/magic-link";
 import { cookies } from "next/headers";
 
 const WORKER_SESSION_DAY_COOKIE = "rr-worker-session-day";
@@ -25,10 +26,10 @@ export async function sendMagicLink(formData: FormData) {
   });
 
   if (error) {
-    redirect(`/auth/login?message=${encodeURIComponent(error.message)}`);
+    redirect(`/auth/login?message=${encodeURIComponent(formatMagicLinkErrorMessage(error.message))}`);
   }
 
-  redirect("/auth/login?message=Check%20your%20email%20for%20your%20magic%20link");
+  redirect(`/auth/login?message=${encodeURIComponent(formatMagicLinkSuccessMessage())}`);
 }
 
 export async function signOut() {

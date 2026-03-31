@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSiteUrl } from "@/lib/env";
+import { formatMagicLinkErrorMessage, formatMagicLinkSuccessMessage } from "@/lib/magic-link";
 import { createClient } from "@/lib/supabase/server";
 
 async function buildRedirect(request: Request, returnTo: string, message: string) {
@@ -48,8 +49,8 @@ export async function POST(request: Request) {
   });
 
   if (error) {
-    return buildRedirect(request, returnTo, error.message);
+    return buildRedirect(request, returnTo, formatMagicLinkErrorMessage(error.message));
   }
 
-  return buildRedirect(request, returnTo, `Invite sent to ${email}`);
+  return buildRedirect(request, returnTo, formatMagicLinkSuccessMessage(email));
 }

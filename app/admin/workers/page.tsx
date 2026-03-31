@@ -4,6 +4,7 @@ import { requireProfile } from "@/lib/auth";
 import { getWorkerManagementList } from "@/lib/data/workers";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 import { AppButton } from "@/components/app-button";
+import { MagicLinkHelp } from "@/components/magic-link-help";
 
 type AdminWorkersPageProps = {
   searchParams?: Promise<{ message?: string }>;
@@ -30,6 +31,9 @@ export default async function AdminWorkersPage({ searchParams }: AdminWorkersPag
         <div className="eyebrow">Worker Directory</div>
         <h2>Workers and contractors</h2>
         {params.message ? <div className="pill" style={{ marginBottom: 12 }}>{params.message}</div> : null}
+        <div style={{ marginBottom: 16 }}>
+          <MagicLinkHelp title="Invite delivery tips" />
+        </div>
         <div className="table-wrap">
           <table>
             <thead>

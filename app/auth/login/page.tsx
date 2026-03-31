@@ -1,6 +1,7 @@
 import { AppShell } from "@/components/app-shell";
 import { sendMagicLink, redirectIfSignedIn } from "@/app/auth/login/actions";
 import { AppButton } from "@/components/app-button";
+import { MagicLinkHelp } from "@/components/magic-link-help";
 
 type LoginPageProps = {
   searchParams?: Promise<{ message?: string }>;
@@ -44,11 +45,12 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             />
           </label>
           <div className="button-row">
-            <AppButton variant="primary"  type="submit">
+            <AppButton variant="primary" type="submit">
               Send magic link
             </AppButton>
           </div>
         </form>
+        <MagicLinkHelp />
       </section>
     </AppShell>
   );
