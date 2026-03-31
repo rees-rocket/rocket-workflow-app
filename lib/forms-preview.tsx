@@ -27,6 +27,7 @@ import type {
   IndependentContractorAgreementSubmission,
   WorkerFormParsedSubmission
 } from "@/lib/data/forms";
+import { FormSignatureSummary } from "@/components/form-signature-summary";
 
 function isEmergencySubmission(
   submission: WorkerFormParsedSubmission | null
@@ -291,13 +292,12 @@ export function WorkerFormSubmissionPreview({
         <section className="screen-frame stack">
           <div className="eyebrow">Contractor Acknowledgment and Signature</div>
           <p style={{ margin: 0, whiteSpace: "pre-wrap" }}>{CONTRACTOR_ACK_TEXT}</p>
-          <div className="signature-block preview">
-            <div className="signature-heading">Contractor Signature</div>
-            <div className="signature-help">{workerSignature}</div>
-            <div className="signature-meta">
-              <span className="signature-line">Signed {workerSignedAt.slice(0, 10)}</span>
-            </div>
-          </div>
+          <FormSignatureSummary
+            signedAt={workerSignedAt}
+            signature={workerSignature}
+            signerLabel="Contractor signed by"
+            title="Contractor Signature"
+          />
         </section>
 
         {submission.is_minor ? (
@@ -305,15 +305,16 @@ export function WorkerFormSubmissionPreview({
             <div className="eyebrow">Guardian for Minor Contractor</div>
             <p style={{ margin: 0, whiteSpace: "pre-wrap" }}>{CONTRACTOR_GUARDIAN_TEXT}</p>
             <div>{submission.guardian_full_name ?? "No guardian name"}</div>
-            <div className="signature-block preview">
-              <div className="signature-heading">Parent / Guardian Signature</div>
-              <div className="signature-help">{guardianSignature ?? "No signature"}</div>
-              <div className="signature-meta">
-                <span className="signature-line">
-                  {guardianSignedAt ? `Signed ${guardianSignedAt.slice(0, 10)}` : "No signed date"}
-                </span>
-              </div>
-            </div>
+            {guardianSignature && guardianSignedAt ? (
+              <FormSignatureSummary
+                signedAt={guardianSignedAt}
+                signature={guardianSignature}
+                signerLabel="Guardian signed by"
+                title="Parent / Guardian Signature"
+              />
+            ) : (
+              <div className="muted">No guardian signature recorded.</div>
+            )}
           </section>
         ) : null}
       </div>
@@ -368,13 +369,12 @@ export function WorkerFormSubmissionPreview({
         <section className="screen-frame stack">
           <div className="eyebrow">Acknowledgment</div>
           <p style={{ margin: 0, whiteSpace: "pre-wrap" }}>{EMPLOYEE_HANDBOOK_ACK_TEXT}</p>
-          <div className="signature-block preview">
-            <div className="signature-heading">Worker Signature</div>
-            <div className="signature-help">{workerSignature}</div>
-            <div className="signature-meta">
-              <span className="signature-line">Signed {workerSignedAt.slice(0, 10)}</span>
-            </div>
-          </div>
+          <FormSignatureSummary
+            signedAt={workerSignedAt}
+            signature={workerSignature}
+            signerLabel="Worker signed by"
+            title="Worker Signature"
+          />
         </section>
         {submission.is_minor ? (
           <section className="screen-frame stack">
@@ -383,15 +383,16 @@ export function WorkerFormSubmissionPreview({
             <div>{submission.guardian_full_name ?? "No guardian name"}</div>
             <div className="muted">{submission.guardian_relationship ?? "No relationship"}</div>
             <div className="muted">{submission.guardian_phone ?? "No phone"}</div>
-            <div className="signature-block preview">
-              <div className="signature-heading">Parent / Guardian Signature</div>
-              <div className="signature-help">{guardianSignature ?? "No signature"}</div>
-              <div className="signature-meta">
-                <span className="signature-line">
-                  {guardianSignedAt ? `Signed ${guardianSignedAt.slice(0, 10)}` : "No signed date"}
-                </span>
-              </div>
-            </div>
+            {guardianSignature && guardianSignedAt ? (
+              <FormSignatureSummary
+                signedAt={guardianSignedAt}
+                signature={guardianSignature}
+                signerLabel="Guardian signed by"
+                title="Parent / Guardian Signature"
+              />
+            ) : (
+              <div className="muted">No guardian signature recorded.</div>
+            )}
           </section>
         ) : null}
       </div>
@@ -404,13 +405,12 @@ export function WorkerFormSubmissionPreview({
         <div className="screen-frame">
           <p style={{ margin: 0, whiteSpace: "pre-wrap" }}>{form.content_text}</p>
         </div>
-        <div className="signature-block preview">
-          <div className="signature-heading">Worker Signature</div>
-          <div className="signature-help">{workerSignature}</div>
-          <div className="signature-meta">
-            <span className="signature-line">Signed {workerSignedAt.slice(0, 10)}</span>
-          </div>
-        </div>
+        <FormSignatureSummary
+          signedAt={workerSignedAt}
+          signature={workerSignature}
+          signerLabel="Worker signed by"
+          title="Worker Signature"
+        />
       </div>
     );
   }
@@ -457,13 +457,12 @@ export function WorkerFormSubmissionPreview({
       <section className="screen-frame stack">
         <div className="eyebrow">Worker Acknowledgment and Signature</div>
         <p style={{ margin: 0, whiteSpace: "pre-wrap" }}>{WORKER_ACK_TEXT}</p>
-        <div className="signature-block preview">
-          <div className="signature-heading">Worker Signature</div>
-          <div className="signature-help">{workerSignature}</div>
-          <div className="signature-meta">
-            <span className="signature-line">Signed {workerSignedAt.slice(0, 10)}</span>
-          </div>
-        </div>
+        <FormSignatureSummary
+          signedAt={workerSignedAt}
+          signature={workerSignature}
+          signerLabel="Worker signed by"
+          title="Worker Signature"
+        />
       </section>
 
       {submission.is_minor ? (
@@ -474,15 +473,16 @@ export function WorkerFormSubmissionPreview({
           <div className="muted">{submission.guardian_relationship ?? "No relationship"}</div>
           <div className="muted">{submission.guardian_phone ?? "No phone"}</div>
           <div className="muted">{submission.guardian_email ?? "No guardian email"}</div>
-          <div className="signature-block preview">
-            <div className="signature-heading">Parent / Guardian Signature</div>
-            <div className="signature-help">{guardianSignature ?? "No signature"}</div>
-            <div className="signature-meta">
-              <span className="signature-line">
-                {guardianSignedAt ? `Signed ${guardianSignedAt.slice(0, 10)}` : "No signed date"}
-              </span>
-            </div>
-          </div>
+          {guardianSignature && guardianSignedAt ? (
+            <FormSignatureSummary
+              signedAt={guardianSignedAt}
+              signature={guardianSignature}
+              signerLabel="Guardian signed by"
+              title="Parent / Guardian Signature"
+            />
+          ) : (
+            <div className="muted">No guardian signature recorded.</div>
+          )}
         </section>
       ) : null}
     </div>

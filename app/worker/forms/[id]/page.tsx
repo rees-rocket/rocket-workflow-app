@@ -5,6 +5,8 @@ import { requireProfile } from "@/lib/auth";
 import { getWorkerFormDetail } from "@/lib/data/forms";
 import { AppButton } from "@/components/app-button";
 import { WorkerPageShell } from "@/components/worker-page-shell";
+import { FormSignatureField } from "@/components/form-signature-field";
+import { FormSignatureSummary } from "@/components/form-signature-summary";
 import {
   CONTRACTOR_ACK_TEXT,
   CONTRACTOR_AGREEMENT_INTRO,
@@ -61,12 +63,24 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
         {data.assignment.status === "completed" && data.submission ? (
           <section className="card stack">
             <div className="eyebrow">Completed Form</div>
-            <p className="muted">
-              Submitted {data.submission.submitted_at.slice(0, 10)} with worker signature {data.submission.typed_signature}.
-            </p>
-            {data.submission.guardian_signature ? (
-              <p className="muted">Guardian signature included: {data.submission.guardian_signature}</p>
+            <FormSignatureSummary
+              signedAt={data.submission.worker_signed_at}
+              signature={data.submission.typed_signature}
+              signerLabel="Worker signed by"
+              title="Worker signature"
+            />
+            {data.submission.guardian_signature && data.submission.guardian_signed_at ? (
+              <FormSignatureSummary
+                signedAt={data.submission.guardian_signed_at}
+                signature={data.submission.guardian_signature}
+                signerLabel="Guardian signed by"
+                title="Guardian signature"
+              />
             ) : null}
+            <div className="screen-frame stack">
+              <div className="eyebrow">Submission record</div>
+              <div className="muted">Submitted on {data.submission.submitted_at.slice(0, 10)}</div>
+            </div>
             {emergencySubmission ? (
               <div className="screen-frame">
                 <div className="muted">Emergency contact</div>
@@ -166,18 +180,14 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
                   {data.form.acknowledgment_label}
                 </span>
               </label>
-              <div className="signature-block">
-                <div className="signature-heading">Worker Signature</div>
-                <div className="signature-help">Type your full legal name as your signature.</div>
-                <label className="field">
-                  <span>Typed full name</span>
-                  <input className="signature-input" defaultValue={profile.full_name} name="typed_signature" required type="text" />
-                </label>
-                <div className="signature-meta">
-                  <span className="signature-line">Worker Signature</span>
-                  <span className="signature-line">Date submitted automatically</span>
-                </div>
-              </div>
+              <FormSignatureField
+                defaultValue={profile.full_name}
+                help="Type your full legal name as your signature."
+                inputName="typed_signature"
+                required
+                signatureLineLabel="Worker Signature"
+                title="Worker Signature"
+              />
             </section>
 
             <section className="stack">
@@ -200,20 +210,12 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
                   <input name="guardian_phone" type="tel" />
                 </label>
               </div>
-              <div className="signature-block">
-                <div className="signature-heading">Parent / Guardian Signature</div>
-                <div className="signature-help">
-                  Required only when the worker is under 18. Type the parent or guardian full name as the signature.
-                </div>
-                <label className="field">
-                  <span>Typed full name</span>
-                  <input className="signature-input" name="guardian_signature" type="text" />
-                </label>
-                <div className="signature-meta">
-                  <span className="signature-line">Parent / Guardian Signature</span>
-                  <span className="signature-line">Date submitted automatically</span>
-                </div>
-              </div>
+              <FormSignatureField
+                help="Required only when the worker is under 18. Type the parent or guardian full name as the signature."
+                inputName="guardian_signature"
+                signatureLineLabel="Parent / Guardian Signature"
+                title="Parent / Guardian Signature"
+              />
             </section>
 
             <AppButton variant="primary"  type="submit">
@@ -315,18 +317,14 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
                   {data.form.acknowledgment_label}
                 </span>
               </label>
-              <div className="signature-block">
-                <div className="signature-heading">Worker Signature</div>
-                <div className="signature-help">Type your full legal name as your signature.</div>
-                <label className="field">
-                  <span>Typed full name</span>
-                  <input className="signature-input" defaultValue={profile.full_name} name="typed_signature" required type="text" />
-                </label>
-                <div className="signature-meta">
-                  <span className="signature-line">Signature</span>
-                  <span className="signature-line">Date submitted automatically</span>
-                </div>
-              </div>
+              <FormSignatureField
+                defaultValue={profile.full_name}
+                help="Type your full legal name as your signature."
+                inputName="typed_signature"
+                required
+                signatureLineLabel="Signature"
+                title="Worker Signature"
+              />
             </section>
 
             <section className="stack">
@@ -355,20 +353,12 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
                   <input name="guardian_email" type="email" />
                 </label>
               </div>
-              <div className="signature-block">
-                <div className="signature-heading">Parent / Guardian Signature</div>
-                <div className="signature-help">
-                  Required only when the worker is under 18. Type the parent or guardian full name as the signature.
-                </div>
-                <label className="field">
-                  <span>Typed full name</span>
-                  <input className="signature-input" name="guardian_signature" type="text" />
-                </label>
-                <div className="signature-meta">
-                  <span className="signature-line">Parent / Guardian Signature</span>
-                  <span className="signature-line">Date submitted automatically</span>
-                </div>
-              </div>
+              <FormSignatureField
+                help="Required only when the worker is under 18. Type the parent or guardian full name as the signature."
+                inputName="guardian_signature"
+                signatureLineLabel="Parent / Guardian Signature"
+                title="Parent / Guardian Signature"
+              />
             </section>
 
             <AppButton variant="primary"  type="submit">
@@ -434,18 +424,14 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
                   I acknowledge that I have read and agree to this Independent Contractor Agreement.
                 </span>
               </label>
-              <div className="signature-block">
-                <div className="signature-heading">Contractor Signature</div>
-                <div className="signature-help">Type your full legal name as your signature.</div>
-                <label className="field">
-                  <span>Typed full name</span>
-                  <input className="signature-input" defaultValue={profile.full_name} name="typed_signature" required type="text" />
-                </label>
-                <div className="signature-meta">
-                  <span className="signature-line">Contractor Signature</span>
-                  <span className="signature-line">Date submitted automatically</span>
-                </div>
-              </div>
+              <FormSignatureField
+                defaultValue={profile.full_name}
+                help="Type your full legal name as your signature."
+                inputName="typed_signature"
+                required
+                signatureLineLabel="Contractor Signature"
+                title="Contractor Signature"
+              />
             </section>
 
             <section className="stack">
@@ -460,20 +446,12 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
                   <input name="guardian_full_name" type="text" />
                 </label>
               </div>
-              <div className="signature-block">
-                <div className="signature-heading">Parent / Guardian Signature</div>
-                <div className="signature-help">
-                  Required only when the contractor is under 18. Type the parent or guardian full name as the signature.
-                </div>
-                <label className="field">
-                  <span>Typed full name</span>
-                  <input className="signature-input" name="guardian_signature" type="text" />
-                </label>
-                <div className="signature-meta">
-                  <span className="signature-line">Parent / Guardian Signature</span>
-                  <span className="signature-line">Date submitted automatically</span>
-                </div>
-              </div>
+              <FormSignatureField
+                help="Required only when the contractor is under 18. Type the parent or guardian full name as the signature."
+                inputName="guardian_signature"
+                signatureLineLabel="Parent / Guardian Signature"
+                title="Parent / Guardian Signature"
+              />
             </section>
 
             <AppButton variant="primary"  type="submit">
@@ -494,18 +472,14 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
                 {data.form.acknowledgment_label}
               </span>
             </label>
-            <div className="signature-block">
-              <div className="signature-heading">Signature</div>
-              <div className="signature-help">Type your full legal name as your signature.</div>
-              <label className="field">
-                <span>Typed full name</span>
-                <input className="signature-input" defaultValue={profile.full_name} name="typed_signature" required type="text" />
-              </label>
-              <div className="signature-meta">
-                <span className="signature-line">Signature</span>
-                <span className="signature-line">Date submitted automatically</span>
-              </div>
-            </div>
+            <FormSignatureField
+              defaultValue={profile.full_name}
+              help="Type your full legal name as your signature."
+              inputName="typed_signature"
+              required
+              signatureLineLabel="Signature"
+              title="Signature"
+            />
             <AppButton variant="primary"  type="submit">
               Submit form
             </AppButton>
