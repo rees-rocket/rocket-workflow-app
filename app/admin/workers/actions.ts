@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireProfile } from "@/lib/auth";
 import { getSiteUrl } from "@/lib/env";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
 function parseWageRateCents(value: FormDataEntryValue | null) {
@@ -79,6 +80,56 @@ export async function updateWorker(formData: FormData) {
   revalidatePath("/admin/workers");
   revalidatePath(`/admin/workers/${workerId}`);
   redirect(`/admin/workers/${workerId}?message=Worker%20updated`);
+}
+
+export async function deleteWorker(formData: FormData) {
+  const { profile } = await requireProfile("admin");
+  const supabase = await createClient();
+
+  const source = String(formData.get("source") ?? "profile");
+  const workerId = String(formData.get("worker_id") ?? "").trim();
+  const role = String(formData.get("role") ?? "worker").trim();
+
+  if (!workerId) {
+    redirect("/admin/workers?message=Worker%20record%20is%20missing");
+  }
+
+  if (source === "profile" && workerId === profile.id) {
+    redirect(`/admin/workers/${workerId}?message=You%20cannot%20delete%20your%20own%20admin%20account`);
+  }
+
+  if (role !== "worker") {
+    const detailPath = source === "pending" ? `/admin/workers/pending-${workerId}` : `/admin/workers/${workerId}`;
+    redirect(`${detailPath}?message=Only%20worker%20accounts%20can%20be%20deleted%20from%20this%20screen`);
+  }
+
+  if (source === "pending") {
+    const { error } = await supabase.from("pending_worker_profiles").delete().eq("id", workerId);
+
+    if (error) {
+      redirect(`/admin/workers/pending-${workerId}?message=${encodeURIComponent(error.message)}`);
+    }
+
+    revalidatePath("/admin");
+    revalidatePath("/admin/workers");
+    redirect("/admin/workers?message=Pending%20worker%20deleted");
+  }
+
+  const { error } = await supabase.from("profiles").delete().eq("id", workerId);
+
+  if (error) {
+    redirect(`/admin/workers/${workerId}?message=${encodeURIComponent(error.message)}`);
+  }
+
+  const adminClient = createAdminClient();
+
+  if (adminClient) {
+    await adminClient.auth.admin.deleteUser(workerId);
+  }
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/workers");
+  redirect("/admin/workers?message=Worker%20deleted");
 }
 
 export async function sendWorkerInvite(formData: FormData) {

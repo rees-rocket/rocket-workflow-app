@@ -677,6 +677,12 @@ create policy "profiles_update_admin"
   using (public.is_admin(auth.uid()))
   with check (public.is_admin(auth.uid()));
 
+drop policy if exists "profiles_delete_admin" on public.profiles;
+create policy "profiles_delete_admin"
+  on public.profiles
+  for delete
+  using (public.is_admin(auth.uid()));
+
 drop policy if exists "pending_profiles_select_admin" on public.pending_worker_profiles;
 create policy "pending_profiles_select_admin"
   on public.pending_worker_profiles
@@ -695,6 +701,12 @@ create policy "pending_profiles_update_admin"
   for update
   using (public.is_admin(auth.uid()))
   with check (public.is_admin(auth.uid()));
+
+drop policy if exists "pending_profiles_delete_admin" on public.pending_worker_profiles;
+create policy "pending_profiles_delete_admin"
+  on public.pending_worker_profiles
+  for delete
+  using (public.is_admin(auth.uid()));
 
 drop policy if exists "time_days_select_self_or_admin" on public.time_days;
 create policy "time_days_select_self_or_admin"

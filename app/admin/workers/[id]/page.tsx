@@ -12,7 +12,7 @@ import {
   formatMinutesAsHours,
   formatTime
 } from "@/lib/time";
-import { updateWorker } from "@/app/admin/workers/actions";
+import { deleteWorker, updateWorker } from "@/app/admin/workers/actions";
 import { notFound } from "next/navigation";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 import { MagicLinkHelp } from "@/components/magic-link-help";
@@ -197,6 +197,23 @@ export default async function WorkerDetailPage({ params, searchParams }: WorkerD
               worker&apos;s status wage, then the worker default wage.
             </p>
           </div>
+          {detail.worker.role === "worker" ? (
+            <section className="screen-frame stack" style={{ borderColor: "rgba(163, 52, 43, 0.24)", background: "#fff7f5" }}>
+              <strong style={{ color: "var(--danger)" }}>Danger zone</strong>
+              <p className="muted" style={{ margin: 0 }}>
+                Delete this worker to remove their record from the portal. Existing worker-owned payroll,
+                time, schedule, training, and form records will be removed with the account.
+              </p>
+              <form action={deleteWorker} className="button-row">
+                <input name="source" type="hidden" value={detail.source} />
+                <input name="worker_id" type="hidden" value={detail.worker.id} />
+                <input name="role" type="hidden" value={detail.worker.role} />
+                <AppButton type="submit" variant="danger">
+                  Delete worker
+                </AppButton>
+              </form>
+            </section>
+          ) : null}
         </section>
 
         <section className="stack">
