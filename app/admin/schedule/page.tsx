@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { AppShell } from "@/components/app-shell";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { requireProfile } from "@/lib/auth";
 import { deleteShift } from "@/app/admin/schedule/actions";
 import { getAdminScheduleCalendar, formatRole, formatShiftStatus } from "@/lib/data/schedule";
 import { formatTime } from "@/lib/time";
-import { signOut } from "@/app/auth/login/actions";
+import { AppButton } from "@/components/app-button";
 
 type Props = {
   searchParams?: Promise<{ message?: string; month?: string; date?: string }>;
@@ -89,29 +89,16 @@ export default async function AdminSchedulePage({ searchParams }: Props) {
   const navigation = getMonthNavigation(month);
 
   return (
-    <AppShell
-      title="Admin Schedule"
-      subtitle="Monthly calendar with day-by-day schedule detail"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/workers", label: "Workers" },
-        { href: "/admin/time", label: "Time" },
-        { href: "/admin/pay", label: "Pay" },
-        { href: "/admin/pay/batches", label: "Periods" },
-        { href: "/admin/schedule", label: "Schedule" }
-      ]}
+    <AdminPageShell
       actions={
         <div className="button-row">
           <Link className="btn primary" href={`/admin/schedule/new?date=${data.selectedDate}`}>
             Add Shift
           </Link>
-          <form action={signOut}>
-            <button className="btn secondary" type="submit">
-              Sign out
-            </button>
-          </form>
         </div>
       }
+      subtitle="Monthly calendar with day-by-day schedule detail"
+      title="Schedule"
     >
       {params.message ? <div className="pill" style={{ marginBottom: 16 }}>{params.message}</div> : null}
 
@@ -209,9 +196,9 @@ export default async function AdminSchedulePage({ searchParams }: Props) {
                       </Link>
                       <form action={deleteShift}>
                         <input name="shift_id" type="hidden" value={shift.id} />
-                        <button className="btn secondary" type="submit">
+                        <AppButton variant="secondary"  type="submit">
                           Delete
-                        </button>
+                        </AppButton>
                       </form>
                     </div>
                   </div>
@@ -265,6 +252,6 @@ export default async function AdminSchedulePage({ searchParams }: Props) {
           )}
         </section>
       </div>
-    </AppShell>
+    </AdminPageShell>
   );
 }

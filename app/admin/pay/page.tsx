@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { AppShell } from "@/components/app-shell";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { saveTipRecord } from "@/app/admin/pay/actions";
-import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { getAdminPayData, getDefaultPayRange, type WorkerPaySummary } from "@/lib/data/pay";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 import type { ProfileRow, TipRecordRow } from "@/lib/types";
+import { AppButton } from "@/components/app-button";
 
 type AdminPayPageProps = {
   searchParams?: Promise<{
@@ -56,26 +56,7 @@ export default async function AdminPayPage({ searchParams }: AdminPayPageProps) 
       : null;
 
   return (
-    <AppShell
-      title="Admin Pay"
-      subtitle="Track pay period totals without extra accounting clutter"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/workers", label: "Workers" },
-        { href: "/admin/time", label: "Time" },
-        { href: "/admin/pay", label: "Pay" },
-        { href: "/admin/pay/batches", label: "Periods" },
-        { href: "/admin/pay/reports", label: "Reports" },
-        { href: "/admin/schedule", label: "Schedule" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <button className="btn secondary" type="submit">
-            Sign out
-          </button>
-        </form>
-      }
-    >
+    <AdminPageShell title="Payroll" subtitle="Track pay period totals without extra accounting clutter">
       <section className="card period-summary">
         <div className="summary-row">
           <div>
@@ -156,9 +137,9 @@ export default async function AdminPayPage({ searchParams }: AdminPayPageProps) 
             </select>
           </label>
           <div className="field" style={{ alignSelf: "end" }}>
-            <button className="btn secondary" type="submit">
+            <AppButton variant="secondary"  type="submit">
               Apply
-            </button>
+            </AppButton>
           </div>
         </form>
       </section>
@@ -315,9 +296,9 @@ export default async function AdminPayPage({ searchParams }: AdminPayPageProps) 
                     <textarea defaultValue={data.selectedTip?.notes ?? ""} name="notes" rows={4} />
                   </label>
                   <div className="button-row">
-                    <button className="btn primary" type="submit">
+                    <AppButton variant="primary"  type="submit">
                       Save tip record
-                    </button>
+                    </AppButton>
                     {data.selectedTip && data.selectedPeriod ? (
                       <Link
                         className="btn secondary"
@@ -387,6 +368,6 @@ export default async function AdminPayPage({ searchParams }: AdminPayPageProps) 
           )}
         </section>
       </div>
-    </AppShell>
+    </AdminPageShell>
   );
 }

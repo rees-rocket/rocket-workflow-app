@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { AppShell } from "@/components/app-shell";
-import { signOut } from "@/app/auth/login/actions";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { requireProfile } from "@/lib/auth";
-import { getPayBatchOverview } from "@/lib/data/pay-batches";
+import { getPayBatchSummary } from "@/lib/data/pay-batches";
 
 type AdminPayPeriodsPageProps = {
   searchParams?: Promise<{
@@ -14,27 +13,10 @@ type AdminPayPeriodsPageProps = {
 export default async function AdminPayBatchesPage({ searchParams }: AdminPayPeriodsPageProps) {
   await requireProfile("admin");
   const params = (await searchParams) ?? {};
-  const data = await getPayBatchOverview({ payPeriodId: params.period });
+  const data = await getPayBatchSummary({ payPeriodId: params.period });
 
   return (
-    <AppShell
-      title="Pay Periods"
-      subtitle="Two-week payroll periods replace manual pay batches"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/time", label: "Time" },
-        { href: "/admin/pay", label: "Pay" },
-        { href: "/admin/pay/batches", label: "Periods" },
-        { href: "/admin/pay/reports", label: "Reports" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <button className="btn secondary" type="submit">
-            Sign out
-          </button>
-        </form>
-      }
-    >
+    <AdminPageShell title="Pay Periods" subtitle="Two-week payroll periods replace manual pay batches">
       {params.message ? <div className="pill" style={{ marginBottom: 16 }}>{params.message}</div> : null}
 
       <div className="grid two">
@@ -118,6 +100,6 @@ export default async function AdminPayBatchesPage({ searchParams }: AdminPayPeri
           </table>
         </div>
       </section>
-    </AppShell>
+    </AdminPageShell>
   );
 }

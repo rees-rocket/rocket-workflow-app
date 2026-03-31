@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AppShell } from "@/components/app-shell";
-import { signOut } from "@/app/auth/login/actions";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { requireProfile } from "@/lib/auth";
 import { getAdminFormDetail } from "@/lib/data/forms";
 import { WorkerFormPreview } from "@/lib/forms-preview";
@@ -14,22 +13,7 @@ export default async function AdminFormDetailPage({ params }: { params: Promise<
   if (!data.form) notFound();
 
   return (
-    <AppShell
-      title="Form Preview"
-      subtitle="Read the full form before assigning or printing it"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/forms", label: "Forms" },
-        { href: `/admin/forms/${data.form.id}`, label: "Preview" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <button className="btn secondary" type="submit">
-            Sign out
-          </button>
-        </form>
-      }
-    >
+    <AdminPageShell title="Form Preview" subtitle="Read the full form before assigning or printing it">
       <section className="card stack">
         <div className="summary-row">
           <div>
@@ -64,6 +48,6 @@ export default async function AdminFormDetailPage({ params }: { params: Promise<
 
         <WorkerFormPreview form={data.form} />
       </section>
-    </AppShell>
+    </AdminPageShell>
   );
 }

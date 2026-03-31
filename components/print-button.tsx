@@ -1,17 +1,15 @@
 "use client";
 
+import { AppButton } from "@/components/app-button";
+
 type PrintButtonProps = {
   label?: string;
 };
 
 export function PrintButton({ label = "Print report" }: PrintButtonProps) {
   return (
-    <button
-      className="btn secondary"
-      onClick={() => window.print()}
-      type="button"
-    >
+    <AppButton onClick={() => window.print()} variant="secondary">
       {label}
-    </button>
+    </AppButton>
   );
 }

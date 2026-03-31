@@ -1,15 +1,15 @@
-import { AppShell } from "@/components/app-shell";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { AdminShiftForm } from "@/components/admin-shift-form";
 import { requireProfile } from "@/lib/auth";
 import { getShiftDetail, getEffectivePayRate, formatRole, formatShiftStatus } from "@/lib/data/schedule";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 import { createClient } from "@/lib/supabase/server";
+import { AppButton } from "@/components/app-button";
 import {
   approveTradeRequest,
   denyTradeRequest,
   updateShift
 } from "@/app/admin/schedule/actions";
-import { signOut } from "@/app/auth/login/actions";
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -37,22 +37,7 @@ export default async function ShiftDetailPage({ params, searchParams }: Props) {
   const shift = detail.shift;
 
   return (
-    <AppShell
-      title="Shift Detail"
-      subtitle="Manage shift details, assignments, and trade approvals"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/schedule", label: "Schedule" },
-        { href: `/admin/schedule/${id}`, label: "Shift" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <button className="btn secondary" type="submit">
-            Sign out
-          </button>
-        </form>
-      }
-    >
+    <AdminPageShell title="Shift Detail" subtitle="Manage shift details, assignments, and trade approvals">
       {query.message ? <div className="pill" style={{ marginBottom: 16 }}>{query.message}</div> : null}
       <div className="pill" style={{ marginBottom: 16 }}>{formatShiftStatus(shift.status)}</div>
       {(pendingWorkers.data?.length ?? 0) > 0 ? (
@@ -137,19 +122,19 @@ export default async function ShiftDetailPage({ params, searchParams }: Props) {
                               ))}
                           </select>
                         ) : null}
-                        <button
-                          className="btn primary"
+                        <AppButton variant="primary"
+                          
                           type="submit"
                         >
                           Approve
-                        </button>
+                        </AppButton>
                       </form>
                       <form action={denyTradeRequest}>
                         <input name="trade_id" type="hidden" value={trade.id} />
                         <input name="shift_id" type="hidden" value={shift.id} />
-                        <button className="btn secondary" type="submit">
+                        <AppButton variant="secondary"  type="submit">
                           Deny
-                        </button>
+                        </AppButton>
                       </form>
                     </>
                   ) : (
@@ -161,6 +146,6 @@ export default async function ShiftDetailPage({ params, searchParams }: Props) {
           </ul>
         )}
       </section>
-    </AppShell>
+    </AdminPageShell>
   );
 }

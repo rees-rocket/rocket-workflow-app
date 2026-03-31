@@ -5,6 +5,7 @@ import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { getPayrollAnnualWorkerReport } from "@/lib/data/pay-reports";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
+import { AppButton } from "@/components/app-button";
 
 type WorkerAnnualPayPrintPageProps = {
   searchParams?: Promise<{ year?: string }>;
@@ -38,9 +39,9 @@ export default async function WorkerAnnualPayPrintPage({ searchParams }: WorkerA
       ]}
       actions={
         <form action={signOut}>
-          <button className="btn secondary" type="submit">
+          <AppButton variant="secondary"  type="submit">
             Sign out
-          </button>
+          </AppButton>
         </form>
       }
     >

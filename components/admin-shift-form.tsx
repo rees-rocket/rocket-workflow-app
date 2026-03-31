@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AppButton } from "@/components/app-button";
 import { getHalfHourOptions, getTimeValueFromIso } from "@/lib/schedule-form";
 import type { ProfileRow, ShiftAssignmentRow, ShiftRow } from "@/lib/types";
 
@@ -172,8 +173,8 @@ export function AdminShiftForm({
               </label>
             </div>
             <div className="button-row">
-              <button
-                className="btn secondary"
+              <AppButton
+                variant="secondary"
                 onClick={() => {
                   setAssignments((current) =>
                     current.length === 1
@@ -184,13 +185,13 @@ export function AdminShiftForm({
                 type="button"
               >
                 Remove assignment
-              </button>
+              </AppButton>
             </div>
           </div>
         ))}
         <div className="button-row">
-          <button
-            className="btn secondary"
+          <AppButton
+            variant="secondary"
             onClick={() => {
               setAssignments((current) => [
                 ...current,
@@ -200,14 +201,14 @@ export function AdminShiftForm({
             type="button"
           >
             Add Worker
-          </button>
+          </AppButton>
         </div>
       </section>
 
       <div className="button-row">
-        <button className="btn primary" type="submit">
+        <AppButton type="submit" variant="primary">
           {submitLabel}
-        </button>
+        </AppButton>
       </div>
     </form>
   );

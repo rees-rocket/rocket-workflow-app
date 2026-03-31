@@ -114,7 +114,7 @@ export async function getPayPeriodOverview(selectedPeriodId?: string) {
   };
 }
 
-export async function getPayBatchOverview(filters: { payPeriodId?: string }) {
+export async function getPayBatchSummary(filters: { payPeriodId?: string }) {
   const supabase = await createClient();
   const { periods, selectedPeriod } = await getPayPeriodOverview(filters.payPeriodId);
 

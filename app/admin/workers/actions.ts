@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireProfile } from "@/lib/auth";
+import { getSiteUrl } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 
 function parseWageRateCents(value: FormDataEntryValue | null) {
@@ -78,4 +79,33 @@ export async function updateWorker(formData: FormData) {
   revalidatePath("/admin/workers");
   revalidatePath(`/admin/workers/${workerId}`);
   redirect(`/admin/workers/${workerId}?message=Worker%20updated`);
+}
+
+export async function sendWorkerInvite(formData: FormData) {
+  await requireProfile("admin");
+
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const returnTo = String(formData.get("return_to") ?? "/admin/workers");
+
+  if (!email) {
+    redirect(`${returnTo}${returnTo.includes("?") ? "&" : "?"}message=${encodeURIComponent("Worker email is required.")}`);
+  }
+
+  const supabase = await createClient();
+  const siteUrl = getSiteUrl();
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: `${siteUrl}/auth/callback`
+    }
+  });
+
+  if (error) {
+    redirect(`${returnTo}${returnTo.includes("?") ? "&" : "?"}message=${encodeURIComponent(error.message)}`);
+  }
+
+  revalidatePath("/admin/workers");
+  redirect(
+    `${returnTo}${returnTo.includes("?") ? "&" : "?"}message=${encodeURIComponent(`Invite sent to ${email}`)}`
+  );
 }

@@ -5,6 +5,7 @@ import { formatTime } from "@/lib/time";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 import { submitTradeRequest } from "@/app/worker/schedule/actions";
 import { signOut } from "@/app/auth/login/actions";
+import { AppButton } from "@/components/app-button";
 
 type Props = {
   searchParams?: Promise<{ message?: string }>;
@@ -29,7 +30,7 @@ export default async function WorkerSchedulePage({ searchParams }: Props) {
       ]}
       actions={
         <form action={signOut}>
-          <button className="btn secondary" type="submit">Sign out</button>
+          <AppButton variant="secondary"  type="submit">Sign out</AppButton>
         </form>
       }
     >
@@ -85,7 +86,7 @@ export default async function WorkerSchedulePage({ searchParams }: Props) {
                     <input name="reason" type="text" />
                   </label>
                   <div className="button-row">
-                    <button className="btn primary" type="submit">Send request</button>
+                    <AppButton variant="primary"  type="submit">Send request</AppButton>
                   </div>
                 </form>
               </li>

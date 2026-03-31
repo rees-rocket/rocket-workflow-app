@@ -4,6 +4,7 @@ import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { getWorkerFormsDashboard } from "@/lib/data/forms";
 import { isOnboardingForm } from "@/lib/forms-content";
+import { AppButton } from "@/components/app-button";
 
 function statusClass(status: "not_started" | "completed") {
   return status === "completed" ? "pill ok" : "pill warn";
@@ -32,9 +33,9 @@ export default async function WorkerFormsPage() {
       ]}
       actions={
         <form action={signOut}>
-          <button className="btn secondary" type="submit">
+          <AppButton variant="secondary"  type="submit">
             Sign out
-          </button>
+          </AppButton>
         </form>
       }
     >

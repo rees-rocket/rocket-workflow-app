@@ -1,5 +1,6 @@
 import { AppShell } from "@/components/app-shell";
 import { requireProfile } from "@/lib/auth";
+import { AppButton } from "@/components/app-button";
 import {
   describeSegment,
   describeStatus,
@@ -141,9 +142,9 @@ export default async function WorkerPage() {
       ]}
       actions={
         <form action={signOut}>
-          <button className="btn secondary" type="submit">
+          <AppButton variant="secondary"  type="submit">
             Sign out
-          </button>
+          </AppButton>
         </form>
       }
     >
@@ -177,19 +178,19 @@ export default async function WorkerPage() {
               <strong>Clock In</strong>
               <div className="button-row stretch">
                 <form action={clockInAsTravel}>
-                  <button className="btn primary big" type="submit">
+                  <AppButton className="big" variant="primary"  type="submit">
                     Clock In as Travel
-                  </button>
+                  </AppButton>
                 </form>
                 <form action={clockInAsPrep}>
-                  <button className="btn secondary big" type="submit">
+                  <AppButton className="big" variant="secondary"  type="submit">
                     Clock In as Prep
-                  </button>
+                  </AppButton>
                 </form>
                 <form action={clockInAsService}>
-                  <button className="btn secondary big" type="submit">
+                  <AppButton className="big" variant="secondary"  type="submit">
                     Clock In as Service
-                  </button>
+                  </AppButton>
                 </form>
               </div>
             </div>
@@ -202,47 +203,47 @@ export default async function WorkerPage() {
                 {status !== "travel" ? (
                   <form action={switchStatus}>
                     <input name="next_status" type="hidden" value="travel" />
-                    <button className="btn secondary big" type="submit">
+                    <AppButton className="big" variant="secondary"  type="submit">
                       Switch to Travel
-                    </button>
+                    </AppButton>
                   </form>
                 ) : null}
                 {status !== "prep" ? (
                   <form action={switchStatus}>
                     <input name="next_status" type="hidden" value="prep" />
-                    <button className="btn secondary big" type="submit">
+                    <AppButton className="big" variant="secondary"  type="submit">
                       Switch to Prep
-                    </button>
+                    </AppButton>
                   </form>
                 ) : null}
                 {status !== "service" && status !== "working" ? (
                   <form action={switchStatus}>
                     <input name="next_status" type="hidden" value="service" />
-                    <button className="btn secondary big" type="submit">
+                    <AppButton className="big" variant="secondary"  type="submit">
                       Switch to Service
-                    </button>
+                    </AppButton>
                   </form>
                 ) : null}
                 {status === "working" ? (
                   <form action={switchStatus}>
                     <input name="next_status" type="hidden" value="service" />
-                    <button className="btn secondary big" type="submit">
+                    <AppButton className="big" variant="secondary"  type="submit">
                       Switch to Service
-                    </button>
+                    </AppButton>
                   </form>
                 ) : null}
               </div>
               <strong>Other Actions</strong>
               <div className="button-row stretch">
                 <form action={startBreak}>
-                  <button className="btn primary big" type="submit">
+                  <AppButton className="big" variant="primary"  type="submit">
                     Start Break
-                  </button>
+                  </AppButton>
                 </form>
                 <form action={clockOut}>
-                  <button className="btn secondary big" type="submit">
+                  <AppButton className="big" variant="secondary"  type="submit">
                     Clock Out
-                  </button>
+                  </AppButton>
                 </form>
               </div>
             </div>
@@ -251,9 +252,9 @@ export default async function WorkerPage() {
           {status === "on_break" ? (
             <div className="button-row stretch">
               <form action={endBreak}>
-                <button className="btn primary big" type="submit">
+                <AppButton className="big" variant="primary"  type="submit">
                   End Break
-                </button>
+                </AppButton>
               </form>
             </div>
           ) : null}

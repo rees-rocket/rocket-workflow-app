@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { AppShell } from "@/components/app-shell";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { PrintButton } from "@/components/print-button";
-import { signOut } from "@/app/auth/login/actions";
 import { updatePayBatchStatus } from "@/app/admin/pay/batches/actions";
 import { requireProfile } from "@/lib/auth";
 import { getPayBatchDetail } from "@/lib/data/pay-batches";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 import { notFound } from "next/navigation";
+import { AppButton } from "@/components/app-button";
 
 type PayPeriodDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -47,24 +47,7 @@ export default async function PayBatchDetailPage({ params, searchParams }: PayPe
   const totalUnpaid = data.summaries.reduce((sum, summary) => sum + summary.total_unpaid_cents, 0);
 
   return (
-    <AppShell
-      title="Pay Period Detail"
-      subtitle="A clearer view of what is still owed in this period"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/pay", label: "Pay" },
-        { href: "/admin/pay/batches", label: "Periods" },
-        { href: "/admin/pay/reports", label: "Reports" },
-        { href: `/admin/pay/batches/${id}`, label: "Detail" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <button className="btn secondary" type="submit">
-            Sign out
-          </button>
-        </form>
-      }
-    >
+    <AdminPageShell title="Pay Period Detail" subtitle="A clearer view of what is still owed in this period">
       {search.message ? <div className="pill" style={{ marginBottom: 16 }}>{search.message}</div> : null}
 
       <section className="card period-summary">
@@ -118,27 +101,27 @@ export default async function PayBatchDetailPage({ params, searchParams }: PayPe
               <form action={updatePayBatchStatus}>
                 <input name="period_id" type="hidden" value={data.batch.id} />
                 <input name="status" type="hidden" value="open" />
-                <button className="btn secondary" type="submit">
+                <AppButton variant="secondary"  type="submit">
                   Move to Open
-                </button>
+                </AppButton>
               </form>
             ) : null}
             {data.batch.status !== "ready" ? (
               <form action={updatePayBatchStatus}>
                 <input name="period_id" type="hidden" value={data.batch.id} />
                 <input name="status" type="hidden" value="ready" />
-                <button className="btn secondary" type="submit">
+                <AppButton variant="secondary"  type="submit">
                   Mark Ready
-                </button>
+                </AppButton>
               </form>
             ) : null}
             {data.batch.status !== "paid" ? (
               <form action={updatePayBatchStatus}>
                 <input name="period_id" type="hidden" value={data.batch.id} />
                 <input name="status" type="hidden" value="paid" />
-                <button className="btn primary" type="submit">
+                <AppButton variant="primary"  type="submit">
                   Mark Period Paid
-                </button>
+                </AppButton>
               </form>
             ) : null}
           </div>
@@ -247,6 +230,6 @@ export default async function PayBatchDetailPage({ params, searchParams }: PayPe
           </div>
         </section>
       </div>
-    </AppShell>
+    </AdminPageShell>
   );
 }

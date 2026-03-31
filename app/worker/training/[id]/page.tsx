@@ -5,6 +5,7 @@ import { advanceTrainingSection, startTrainingModule, submitTrainingQuiz } from 
 import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { describeTrainingStatus, getWorkerTrainingModule } from "@/lib/data/training";
+import { AppButton } from "@/components/app-button";
 
 type WorkerTrainingDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -40,9 +41,9 @@ export default async function WorkerTrainingDetailPage({ params }: WorkerTrainin
       ]}
       actions={
         <form action={signOut}>
-          <button className="btn secondary" type="submit">
+          <AppButton variant="secondary"  type="submit">
             Sign out
-          </button>
+          </AppButton>
         </form>
       }
     >
@@ -68,9 +69,9 @@ export default async function WorkerTrainingDetailPage({ params }: WorkerTrainin
         {data.assignment.status === "not_started" ? (
           <form action={startTrainingModule}>
             <input name="assignment_id" type="hidden" value={data.assignment.id} />
-            <button className="btn primary" type="submit">
+            <AppButton variant="primary"  type="submit">
               Start module
-            </button>
+            </AppButton>
           </form>
         ) : null}
 
@@ -86,9 +87,9 @@ export default async function WorkerTrainingDetailPage({ params }: WorkerTrainin
             <form action={advanceTrainingSection}>
               <input name="assignment_id" type="hidden" value={data.assignment.id} />
               <input name="next_index" type="hidden" value={String(data.assignment.current_section_index + 1)} />
-              <button className="btn primary" type="submit">
+              <AppButton variant="primary"  type="submit">
                 {data.assignment.current_section_index + 1 >= data.sections.length ? "Continue to quiz" : "Next section"}
-              </button>
+              </AppButton>
             </form>
           </section>
         ) : null}
@@ -121,9 +122,9 @@ export default async function WorkerTrainingDetailPage({ params }: WorkerTrainin
                   Last score {data.assignment.last_score_percent}% · Attempts {data.assignment.attempts_count}
                 </div>
               ) : null}
-              <button className="btn primary" type="submit">
+              <AppButton variant="primary"  type="submit">
                 Submit quiz
-              </button>
+              </AppButton>
             </form>
           </section>
         ) : null}

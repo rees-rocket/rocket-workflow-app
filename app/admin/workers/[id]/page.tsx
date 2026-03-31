@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { AppShell } from "@/components/app-shell";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { requireProfile } from "@/lib/auth";
 import { getDefaultPayRange, getWorkerPaySummary } from "@/lib/data/pay";
 import { getWorkerManagementDetail } from "@/lib/data/workers";
+import { AppButton } from "@/components/app-button";
 import {
   calculateMinutes,
   describeBatchPaidStatus,
@@ -11,8 +12,7 @@ import {
   formatMinutesAsHours,
   formatTime
 } from "@/lib/time";
-import { updateWorker } from "@/app/admin/workers/actions";
-import { signOut } from "@/app/auth/login/actions";
+import { sendWorkerInvite, updateWorker } from "@/app/admin/workers/actions";
 import { notFound } from "next/navigation";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 
@@ -43,23 +43,22 @@ export default async function WorkerDetailPage({ params, searchParams }: WorkerD
       : null;
 
   return (
-    <AppShell
-      title="Worker Detail"
-      subtitle="Practical worker management"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/workers", label: "Workers" },
-        { href: "/admin/pay", label: "Pay" },
-        { href: "/admin/pay/batches", label: "Periods" },
-        { href: `/admin/workers/${id}`, label: "Detail" }
-      ]}
+    <AdminPageShell
       actions={
-        <form action={signOut}>
-          <button className="btn secondary" type="submit">
-            Sign out
-          </button>
+        <form action={sendWorkerInvite}>
+          <input name="email" type="hidden" value={detail.worker.email} />
+          <input
+            name="return_to"
+            type="hidden"
+            value={`/admin/workers/${detail.source === "pending" ? `pending-${detail.worker.id}` : detail.worker.id}`}
+          />
+          <AppButton type="submit" variant="secondary">
+            {detail.source === "pending" ? "Send invite email" : "Re-send sign-in email"}
+          </AppButton>
         </form>
       }
+      title="Worker Detail"
+      subtitle="Practical worker management"
     >
       <div className="grid three">
         <section className="card metric">
@@ -184,9 +183,9 @@ export default async function WorkerDetailPage({ params, searchParams }: WorkerD
               <textarea defaultValue={detail.worker.notes ?? ""} name="notes" rows={5} />
             </label>
             <div className="button-row">
-              <button className="btn primary" type="submit">
+              <AppButton variant="primary"  type="submit">
                 Save changes
-              </button>
+              </AppButton>
             </div>
           </form>
           <div className="screen-frame">
@@ -355,6 +354,6 @@ export default async function WorkerDetailPage({ params, searchParams }: WorkerD
           </div>
         )}
       </section>
-    </AppShell>
+    </AdminPageShell>
   );
 }

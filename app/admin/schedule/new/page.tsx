@@ -1,7 +1,6 @@
-import { AppShell } from "@/components/app-shell";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { requireProfile } from "@/lib/auth";
 import { createShift } from "@/app/admin/schedule/actions";
-import { signOut } from "@/app/auth/login/actions";
 import { getWorkerList } from "@/lib/data/time";
 import { createClient } from "@/lib/supabase/server";
 import { AdminShiftForm } from "@/components/admin-shift-form";
@@ -23,22 +22,7 @@ export default async function NewShiftPage({ searchParams }: Props) {
   ]);
 
   return (
-    <AppShell
-      title="New Shift"
-      subtitle="Create the shift first, then add workers"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/schedule", label: "Schedule" },
-        { href: "/admin/schedule/new", label: "New Shift" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <button className="btn secondary" type="submit">
-            Sign out
-          </button>
-        </form>
-      }
-    >
+    <AdminPageShell title="New Shift" subtitle="Create the shift first, then add workers">
       {params.message ? <div className="pill" style={{ marginBottom: 16 }}>{params.message}</div> : null}
       {(pendingWorkers.data?.length ?? 0) > 0 ? (
         <div className="card" style={{ marginBottom: 16 }}>
@@ -59,6 +43,6 @@ export default async function NewShiftPage({ searchParams }: Props) {
         submitLabel="Create shift"
         workers={workers}
       />
-    </AppShell>
+    </AdminPageShell>
   );
 }

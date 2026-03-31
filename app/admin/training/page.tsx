@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { AppShell } from "@/components/app-shell";
-import { signOut } from "@/app/auth/login/actions";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { saveTrainingAssignment, saveTrainingCategory, saveTrainingModule } from "@/app/admin/training/actions";
 import { requireProfile } from "@/lib/auth";
 import { describeTrainingStatus, getAdminTrainingManagerData, getTrainingModuleEditorData } from "@/lib/data/training";
+import { AppButton } from "@/components/app-button";
 
 type AdminTrainingPageProps = {
   searchParams?: Promise<{
@@ -29,25 +29,7 @@ export default async function AdminTrainingPage({ searchParams }: AdminTrainingP
   const selectedModuleEditor = params.module ? await getTrainingModuleEditorData(params.module) : null;
 
   return (
-    <AppShell
-      title="Admin Training"
-      subtitle="Categories, modules, assignments, and compliance in one place"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/workers", label: "Workers" },
-        { href: "/admin/time", label: "Time" },
-        { href: "/admin/pay", label: "Pay" },
-        { href: "/admin/training", label: "Training" },
-        { href: "/admin/forms", label: "Forms" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <button className="btn secondary" type="submit">
-            Sign out
-          </button>
-        </form>
-      }
-    >
+    <AdminPageShell title="Training" subtitle="Categories, modules, assignments, and compliance in one place">
       <div className="grid two">
         <section className="card stack">
           <div className="eyebrow">Categories</div>
@@ -74,9 +56,9 @@ export default async function AdminTrainingPage({ searchParams }: AdminTrainingP
                 Active category
               </span>
             </label>
-            <button className="btn primary" type="submit">
+            <AppButton variant="primary"  type="submit">
               {selectedCategory ? "Update category" : "Save category"}
-            </button>
+            </AppButton>
           </form>
 
           <ul className="list">
@@ -140,9 +122,9 @@ export default async function AdminTrainingPage({ searchParams }: AdminTrainingP
                 type="datetime-local"
               />
             </label>
-            <button className="btn primary" type="submit">
+            <AppButton variant="primary"  type="submit">
               {selectedAssignment ? "Update assignment" : "Assign module"}
-            </button>
+            </AppButton>
           </form>
 
           <div className="table-wrap">
@@ -214,7 +196,7 @@ export default async function AdminTrainingPage({ searchParams }: AdminTrainingP
             <input defaultValue={selectedModuleEditor?.module.learning_objective ?? ""} name="learning_objective" type="text" />
           </label>
           <label className="field">
-            <span>Module overview</span>
+            <span>Module details</span>
             <textarea defaultValue={selectedModuleEditor?.module.description ?? ""} name="description" required rows={4} />
           </label>
 
@@ -314,9 +296,9 @@ export default async function AdminTrainingPage({ searchParams }: AdminTrainingP
               <input defaultValue={selectedModuleEditor?.module.renewal_period_days ?? "365"} name="renewal_period_days" type="number" />
             </label>
           </div>
-          <button className="btn primary" type="submit">
+          <AppButton variant="primary"  type="submit">
             {selectedModuleEditor ? "Update module" : "Save module"}
-          </button>
+          </AppButton>
         </form>
       </section>
 
@@ -355,6 +337,6 @@ export default async function AdminTrainingPage({ searchParams }: AdminTrainingP
           </table>
         </div>
       </section>
-    </AppShell>
+    </AdminPageShell>
   );
 }

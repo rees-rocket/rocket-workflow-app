@@ -1,9 +1,10 @@
-import { AppShell } from "@/components/app-shell";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import Link from "next/link";
 import { requireProfile } from "@/lib/auth";
+import { sendWorkerInvite } from "@/app/admin/workers/actions";
 import { getWorkerManagementList } from "@/lib/data/workers";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
-import { signOut } from "@/app/auth/login/actions";
+import { AppButton } from "@/components/app-button";
 
 type AdminWorkersPageProps = {
   searchParams?: Promise<{ message?: string }>;
@@ -15,30 +16,16 @@ export default async function AdminWorkersPage({ searchParams }: AdminWorkersPag
   const params = (await searchParams) ?? {};
 
   return (
-    <AppShell
-      title="Admin Workers"
-      subtitle="Live worker list for practical worker management"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/workers", label: "Workers" },
-        { href: "/admin/time", label: "Time" },
-        { href: "/admin/pay", label: "Pay" },
-        { href: "/admin/pay/batches", label: "Periods" },
-        { href: "/admin/schedule", label: "Schedule" },
-        { href: "/admin/workers/new", label: "Add Worker" }
-      ]}
+    <AdminPageShell
       actions={
         <div className="button-row">
           <Link className="btn primary" href="/admin/workers/new">
             Add Worker
           </Link>
-          <form action={signOut}>
-            <button className="btn secondary" type="submit">
-              Sign out
-            </button>
-          </form>
         </div>
       }
+      subtitle="Live worker list for practical worker management"
+      title="Workers"
     >
       <section className="card">
         <div className="eyebrow">Worker Directory</div>
@@ -56,6 +43,7 @@ export default async function AdminWorkersPage({ searchParams }: AdminWorkersPag
                 <th>Wage</th>
                 <th>Tip Eligible</th>
                 <th>Training</th>
+                <th>Invite</th>
                 <th>Open</th>
               </tr>
             </thead>
@@ -82,6 +70,15 @@ export default async function AdminWorkersPage({ searchParams }: AdminWorkersPag
                       : "No training assigned"}
                   </td>
                   <td>
+                    <form action={sendWorkerInvite}>
+                      <input name="email" type="hidden" value={worker.email} />
+                      <input name="return_to" type="hidden" value="/admin/workers" />
+                      <AppButton type="submit" variant="secondary">
+                        {worker.source === "pending" ? "Send invite" : "Re-send invite"}
+                      </AppButton>
+                    </form>
+                  </td>
+                  <td>
                     <Link href={`/admin/workers/${worker.source === "pending" ? `pending-${worker.id}` : worker.id}`}>
                       Open
                     </Link>
@@ -92,6 +89,6 @@ export default async function AdminWorkersPage({ searchParams }: AdminWorkersPag
           </table>
         </div>
       </section>
-    </AppShell>
+    </AdminPageShell>
   );
 }

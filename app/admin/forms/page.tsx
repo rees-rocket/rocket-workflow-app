@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { AppShell } from "@/components/app-shell";
-import { signOut } from "@/app/auth/login/actions";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { assignWorkerForm, saveWorkerForm } from "@/app/admin/forms/actions";
 import { isOnboardingForm } from "@/lib/forms-content";
 import { WorkerFormPreview } from "@/lib/forms-preview";
 import { requireProfile } from "@/lib/auth";
 import { getAdminFormsManagerData } from "@/lib/data/forms";
+import { AppButton } from "@/components/app-button";
 
 type AdminFormsPageProps = {
   searchParams?: Promise<{ form?: string; assignment?: string }>;
@@ -27,25 +27,7 @@ export default async function AdminFormsPage({ searchParams }: AdminFormsPagePro
       : null;
 
   return (
-    <AppShell
-      title="Admin Forms"
-      subtitle="Create, assign, and track worker forms"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/workers", label: "Workers" },
-        { href: "/admin/time", label: "Time" },
-        { href: "/admin/pay", label: "Pay" },
-        { href: "/admin/training", label: "Training" },
-        { href: "/admin/forms", label: "Forms" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <button className="btn secondary" type="submit">
-            Sign out
-          </button>
-        </form>
-      }
-    >
+    <AdminPageShell title="Admin Forms" subtitle="Create, assign, and track worker forms">
       <div className="grid two">
         <section className="card stack">
           <div className="eyebrow">Form Builder</div>
@@ -83,9 +65,9 @@ export default async function AdminFormsPage({ searchParams }: AdminFormsPagePro
                 Active form
               </span>
             </label>
-            <button className="btn primary" type="submit">
+            <AppButton variant="primary"  type="submit">
               {selectedForm ? "Update form" : "Save form"}
-            </button>
+            </AppButton>
           </form>
         </section>
 
@@ -115,9 +97,9 @@ export default async function AdminFormsPage({ searchParams }: AdminFormsPagePro
                 ))}
               </select>
             </label>
-            <button className="btn primary" type="submit">
+            <AppButton variant="primary"  type="submit">
               Assign form
-            </button>
+            </AppButton>
           </form>
         </section>
       </div>
@@ -301,6 +283,6 @@ export default async function AdminFormsPage({ searchParams }: AdminFormsPagePro
           <p className="muted">Choose a submitted assignment to view its details.</p>
         )}
       </section>
-    </AppShell>
+    </AdminPageShell>
   );
 }

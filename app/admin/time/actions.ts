@@ -227,6 +227,49 @@ export async function deleteTimeSegment(formData: FormData) {
   revalidatePath("/worker/time");
 }
 
+export async function clearTimeDay(formData: FormData) {
+  const { profile } = await requireProfile("admin");
+  const supabase = await createClient();
+  const timeDayId = String(formData.get("time_day_id") ?? "");
+  const workerId = String(formData.get("worker_id") ?? "");
+  const adminNote = String(formData.get("admin_note") ?? "");
+
+  if (!timeDayId || !workerId) return;
+
+  const { data: existingSegments } = await supabase
+    .from("time_segments")
+    .select("*")
+    .eq("time_day_id", timeDayId)
+    .returns<TimeSegmentRow[]>();
+
+  const segments = existingSegments ?? [];
+  if (segments.length === 0) {
+    return;
+  }
+
+  await supabase.from("time_segments").delete().eq("time_day_id", timeDayId);
+
+  await Promise.all(
+    segments.map((segment) =>
+      logTimeSegmentAudit({
+        timeDayId,
+        timeSegmentId: segment.id,
+        actionType: "segment_deleted",
+        originalValue: segment,
+        newValue: null,
+        note: adminNote || "Cleared all time entries for this day",
+        actedBy: profile.id
+      })
+    )
+  );
+
+  await recalculateTimeDay(timeDayId, workerId);
+  revalidatePath("/admin");
+  revalidatePath("/admin/time");
+  revalidatePath("/worker");
+  revalidatePath("/worker/time");
+}
+
 export async function reviewTimeCorrectionRequest(formData: FormData) {
   const { profile } = await requireProfile("admin");
   const supabase = await createClient();

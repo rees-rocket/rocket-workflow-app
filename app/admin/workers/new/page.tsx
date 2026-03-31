@@ -1,7 +1,7 @@
-import { AppShell } from "@/components/app-shell";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { requireProfile } from "@/lib/auth";
 import { createWorker } from "@/app/admin/workers/actions";
-import { signOut } from "@/app/auth/login/actions";
+import { AppButton } from "@/components/app-button";
 
 type NewWorkerPageProps = {
   searchParams?: Promise<{ message?: string }>;
@@ -12,22 +12,7 @@ export default async function NewWorkerPage({ searchParams }: NewWorkerPageProps
   const params = (await searchParams) ?? {};
 
   return (
-    <AppShell
-      title="New Worker"
-      subtitle="Create a worker profile in plain English"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/workers", label: "Workers" },
-        { href: "/admin/workers/new", label: "Add Worker" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <button className="btn secondary" type="submit">
-            Sign out
-          </button>
-        </form>
-      }
-    >
+    <AdminPageShell title="New Worker" subtitle="Create a worker profile in plain English">
       <section className="card stack">
         <div className="eyebrow">Add Worker</div>
         <h2>Set up a worker before they first sign in</h2>
@@ -93,12 +78,12 @@ export default async function NewWorkerPage({ searchParams }: NewWorkerPageProps
             <textarea name="notes" rows={4} />
           </label>
           <div className="button-row">
-            <button className="btn primary" type="submit">
+            <AppButton variant="primary"  type="submit">
               Save worker
-            </button>
+            </AppButton>
           </div>
         </form>
       </section>
-    </AppShell>
+    </AdminPageShell>
   );
 }

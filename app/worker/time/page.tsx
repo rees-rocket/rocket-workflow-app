@@ -6,6 +6,7 @@ import { getWorkerTimeData, getSegmentsForDay } from "@/lib/data/time";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 import { submitTimeCorrectionRequest } from "@/app/worker/time/actions";
 import { signOut } from "@/app/auth/login/actions";
+import { AppButton } from "@/components/app-button";
 
 export default async function WorkerTimePage() {
   const { profile } = await requireProfile("worker");
@@ -28,9 +29,9 @@ export default async function WorkerTimePage() {
       ]}
       actions={
         <form action={signOut}>
-          <button className="btn secondary" type="submit">
+          <AppButton variant="secondary"  type="submit">
             Sign out
-          </button>
+          </AppButton>
         </form>
       }
     >
@@ -122,9 +123,9 @@ export default async function WorkerTimePage() {
               <span>Reason or note</span>
               <textarea name="reason" rows={3} />
             </label>
-            <button className="btn primary" type="submit">
+            <AppButton variant="primary"  type="submit">
               Send correction request
-            </button>
+            </AppButton>
           </form>
         </section>
       </div>

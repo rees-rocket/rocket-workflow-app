@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { AppShell } from "@/components/app-shell";
-import { signOut } from "@/app/auth/login/actions";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { requireProfile } from "@/lib/auth";
 import { getPayrollReportIndexData } from "@/lib/data/pay-reports";
+import { AppButton } from "@/components/app-button";
 
 type PayrollReportsHomePageProps = {
   searchParams?: Promise<{
@@ -31,23 +31,7 @@ export default async function PayrollReportsHomePage({ searchParams }: PayrollRe
     : null;
 
   return (
-    <AppShell
-      title="Payroll Reports"
-      subtitle="Print payroll by worker, by pay period, or for the full year"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/pay", label: "Pay" },
-        { href: "/admin/pay/batches", label: "Periods" },
-        { href: "/admin/pay/reports", label: "Reports" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <button className="btn secondary" type="submit">
-            Sign out
-          </button>
-        </form>
-      }
-    >
+    <AdminPageShell title="Reports" subtitle="Print payroll by worker, by pay period, or for the full year">
       <section className="card stack">
         <div className="eyebrow">Report Filters</div>
         <h2>Choose the worker, pay period, and year you want to print</h2>
@@ -83,9 +67,9 @@ export default async function PayrollReportsHomePage({ searchParams }: PayrollRe
             </select>
           </label>
           <div className="field" style={{ alignSelf: "end" }}>
-            <button className="btn secondary" type="submit">
+            <AppButton variant="secondary"  type="submit">
               Update report links
-            </button>
+            </AppButton>
           </div>
         </form>
       </section>
@@ -160,6 +144,6 @@ export default async function PayrollReportsHomePage({ searchParams }: PayrollRe
           )}
         </article>
       </section>
-    </AppShell>
+    </AdminPageShell>
   );
 }

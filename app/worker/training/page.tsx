@@ -3,6 +3,7 @@ import { AppShell } from "@/components/app-shell";
 import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { describeTrainingStatus, getWorkerTrainingDashboard } from "@/lib/data/training";
+import { AppButton } from "@/components/app-button";
 
 function getStatusClass(status: "not_started" | "in_progress" | "completed" | "overdue") {
   if (status === "completed") return "pill ok";
@@ -36,9 +37,9 @@ export default async function WorkerTrainingPage() {
       ]}
       actions={
         <form action={signOut}>
-          <button className="btn secondary" type="submit">
+          <AppButton variant="secondary"  type="submit">
             Sign out
-          </button>
+          </AppButton>
         </form>
       }
     >

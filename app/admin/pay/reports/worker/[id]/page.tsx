@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AppShell } from "@/components/app-shell";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { PrintButton } from "@/components/print-button";
-import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { getDefaultPayRange } from "@/lib/data/pay";
 import { getPayrollPeriodWorkerReport } from "@/lib/data/pay-reports";
@@ -31,22 +30,7 @@ export default async function WorkerPayrollReportPage({ params, searchParams }: 
   }
 
   return (
-    <AppShell
-      title="Worker Payroll Report"
-      subtitle="Printable pay-period report for one worker"
-      nav={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/pay", label: "Pay" },
-        { href: "/admin/pay/reports", label: "Reports" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <button className="btn secondary" type="submit">
-            Sign out
-          </button>
-        </form>
-      }
-    >
+    <AdminPageShell title="Worker Payroll Report" subtitle="Printable pay-period report for one worker">
       <section className="card report-shell">
         <div className="print-toolbar">
           <Link className="btn secondary" href="/admin/pay/reports">
@@ -198,6 +182,6 @@ export default async function WorkerPayrollReportPage({ params, searchParams }: 
           </section>
         </div>
       </section>
-    </AppShell>
+    </AdminPageShell>
   );
 }

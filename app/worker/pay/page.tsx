@@ -4,6 +4,7 @@ import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { formatPayPeriodLabel, getWorkerPayPageData } from "@/lib/data/pay";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
+import { AppButton } from "@/components/app-button";
 
 type WorkerPayPageProps = {
   searchParams?: Promise<{ period?: string }>;
@@ -32,9 +33,9 @@ export default async function WorkerPayPage({ searchParams }: WorkerPayPageProps
       ]}
       actions={
         <form action={signOut}>
-          <button className="btn secondary" type="submit">
+          <AppButton variant="secondary"  type="submit">
             Sign out
-          </button>
+          </AppButton>
         </form>
       }
     >
@@ -162,12 +163,12 @@ export default async function WorkerPayPage({ searchParams }: WorkerPayPageProps
             Printable pay-period and annual summaries become available after your first recorded pay period.
           </p>
           <div className="button-row">
-            <button className="btn secondary" disabled type="button">
+            <AppButton variant="secondary"  disabled type="button">
               Print this pay period
-            </button>
-            <button className="btn secondary" disabled type="button">
+            </AppButton>
+            <AppButton variant="secondary"  disabled type="button">
               Print annual summary
-            </button>
+            </AppButton>
           </div>
         </section>
       )}

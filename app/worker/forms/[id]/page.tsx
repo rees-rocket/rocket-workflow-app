@@ -5,6 +5,7 @@ import { submitWorkerForm } from "@/app/worker/forms/actions";
 import { signOut } from "@/app/auth/login/actions";
 import { requireProfile } from "@/lib/auth";
 import { getWorkerFormDetail } from "@/lib/data/forms";
+import { AppButton } from "@/components/app-button";
 import {
   CONTRACTOR_ACK_TEXT,
   CONTRACTOR_AGREEMENT_INTRO,
@@ -58,9 +59,9 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
       ]}
       actions={
         <form action={signOut}>
-          <button className="btn secondary" type="submit">
+          <AppButton variant="secondary"  type="submit">
             Sign out
-          </button>
+          </AppButton>
         </form>
       }
     >
@@ -234,9 +235,9 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
               </div>
             </section>
 
-            <button className="btn primary" type="submit">
+            <AppButton variant="primary"  type="submit">
               Submit acknowledgment
-            </button>
+            </AppButton>
           </form>
         ) : isEmergencyForm ? (
           <form action={submitWorkerForm} className="stack">
@@ -389,9 +390,9 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
               </div>
             </section>
 
-            <button className="btn primary" type="submit">
+            <AppButton variant="primary"  type="submit">
               Submit form
-            </button>
+            </AppButton>
           </form>
         ) : isContractorAgreementForm ? (
           <form action={submitWorkerForm} className="stack">
@@ -494,9 +495,9 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
               </div>
             </section>
 
-            <button className="btn primary" type="submit">
+            <AppButton variant="primary"  type="submit">
               Submit agreement
-            </button>
+            </AppButton>
           </form>
         ) : (
           <form action={submitWorkerForm} className="stack">
@@ -524,9 +525,9 @@ export default async function WorkerFormDetailPage({ params }: { params: Promise
                 <span className="signature-line">Date submitted automatically</span>
               </div>
             </div>
-            <button className="btn primary" type="submit">
+            <AppButton variant="primary"  type="submit">
               Submit form
-            </button>
+            </AppButton>
           </form>
         )}
       </section>

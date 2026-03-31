@@ -1,9 +1,8 @@
-import { AppShell } from "@/components/app-shell";
+import { AdminPageShell } from "@/components/admin-page-shell";
 import { requireProfile } from "@/lib/auth";
 import { getAdminTimeData, getWorkerList } from "@/lib/data/time";
 import { formatCurrencyFromCents } from "@/lib/mvp-helpers";
 import { describeBatchPaidStatus, formatMinutesAsHours } from "@/lib/time";
-import { signOut } from "@/app/auth/login/actions";
 
 export default async function AdminPage() {
   await requireProfile("admin");
@@ -12,28 +11,7 @@ export default async function AdminPage() {
   const paidDays = timeData.days.filter((day) => day.pay_period?.status === "paid").length;
 
   return (
-    <AppShell
-      title="Admin"
-      subtitle="Desktop-friendly controls with live data"
-      nav={[
-        { href: "/", label: "Overview" },
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/workers", label: "Workers" },
-        { href: "/admin/time", label: "Time" },
-        { href: "/admin/pay", label: "Pay" },
-        { href: "/admin/pay/batches", label: "Periods" },
-        { href: "/admin/training", label: "Training" },
-        { href: "/admin/forms", label: "Forms" },
-        { href: "/admin/schedule", label: "Schedule" }
-      ]}
-      actions={
-        <form action={signOut}>
-          <button className="btn secondary" type="submit">
-            Sign out
-          </button>
-        </form>
-      }
-    >
+    <AdminPageShell title="Dashboard" subtitle="Desktop-friendly controls with live data">
       <div className="grid three">
         <section className="card metric">
           <span className="eyebrow">Workers</span>
@@ -114,6 +92,6 @@ export default async function AdminPage() {
           </table>
         </div>
       </section>
-    </AppShell>
+    </AdminPageShell>
   );
 }
