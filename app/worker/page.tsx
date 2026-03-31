@@ -157,19 +157,19 @@ export default async function WorkerPage() {
             <div className="stack">
               <strong>Clock In</strong>
               <div className="button-row stretch">
-                <form action={clockInAsTravel}>
-                  <AppButton className="big" variant="primary"  type="submit">
-                    Clock In as Travel
+                <form action={clockInAsService}>
+                  <AppButton className="big" variant="primary" type="submit">
+                    Clock In as Service
                   </AppButton>
                 </form>
                 <form action={clockInAsPrep}>
-                  <AppButton className="big" variant="secondary"  type="submit">
+                  <AppButton className="big" variant="secondary" type="submit">
                     Clock In as Prep
                   </AppButton>
                 </form>
-                <form action={clockInAsService}>
-                  <AppButton className="big" variant="secondary"  type="submit">
-                    Clock In as Service
+                <form action={clockInAsTravel}>
+                  <AppButton className="big" variant="secondary" type="submit">
+                    Clock In as Travel
                   </AppButton>
                 </form>
               </div>
