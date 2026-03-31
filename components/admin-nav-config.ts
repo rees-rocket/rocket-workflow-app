@@ -9,7 +9,6 @@ export const adminNavItems: AdminNavItem[] = [
   { href: "/admin/workers", key: "workers", label: "Workers" },
   { href: "/admin/time", key: "time", label: "Time" },
   { href: "/admin/pay", key: "pay", label: "Pay" },
-  { href: "/admin/pay/batches", key: "periods", label: "Periods" },
   { href: "/admin/pay/reports", key: "reports", label: "Reports" },
   { href: "/admin/training", key: "training", label: "Training" },
   { href: "/admin/forms", key: "forms", label: "Forms" },
@@ -21,7 +20,7 @@ export function getActiveAdminKey(pathname: string) {
   if (pathname.startsWith("/admin/workers")) return "workers";
   if (pathname.startsWith("/admin/time")) return "time";
   if (pathname.startsWith("/admin/pay/reports")) return "reports";
-  if (pathname.startsWith("/admin/pay/batches")) return "periods";
+  if (pathname.startsWith("/admin/pay/batches")) return "pay";
   if (pathname.startsWith("/admin/pay")) return "pay";
   if (pathname.startsWith("/admin/training")) return "training";
   if (pathname.startsWith("/admin/forms")) return "forms";
